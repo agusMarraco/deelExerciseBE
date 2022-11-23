@@ -5,6 +5,7 @@ const moment = require('moment')
 
 async function getBestClients(req, res) {
     const profileId = req.get('profile_id');
+    // mock verification to represent some kind of auth for the admin routes, can be done with router filters
     if (profileId !== '1234admin') {
         res.status(403).send('Not Authorized to the admin api')
         return
@@ -19,6 +20,7 @@ async function getBestClients(req, res) {
         return
     }
 
+    //default limit 2 or the specified one
     const limit = isNil(req.query.limit) ? 2 : req.query.limit
     const {Job, Contract, Profile} = req.app.get('models')
 
@@ -28,6 +30,7 @@ async function getBestClients(req, res) {
         }
     })
 
+    // I think it can be done tidier with raw sql, but I wanted to use sequelize
     const topClients = await Contract.findAll({
         attributes: [
             [sequelize.fn('sum', sequelize.col('price')), 'priceSum'],
@@ -81,6 +84,12 @@ async function getBestClients(req, res) {
     return topClientsToReturn;
 }
 
+/**
+ * Common method to validate date range
+ * @param start
+ * @param end
+ * @returns {{valid: boolean, message: string}}
+ */
 function validateDateRange(start, end) {
     const status = {
         valid: true,
@@ -122,6 +131,7 @@ async function getBestProfession(req, res) {
 
     const {Job, Contract, Profile} = req.app.get('models')
 
+    // I think it can be done tidier with raw sql, but I wanted to use sequelize
     const topEarners = await Profile.findAll({
         attributes: [
             'profession',

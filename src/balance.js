@@ -2,6 +2,12 @@ const {sequelize} = require("./model");
 const {isNil} = require("rambda");
 const {Op} = require("sequelize");
 
+/**
+ * Using transaction to make deposit to avoid inconsistent information
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function makeDeposit(req, res) {
     try {
 

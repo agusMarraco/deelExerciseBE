@@ -17,6 +17,10 @@ app.set('models', sequelize.models)
  * contractor or the client is in it.
  * @returns contract by id
  */
+
+/**
+ * Divided the code into different files to avoid behaviour in the router and ensure readbility
+ */
 app.get('/contracts/:id', getProfile, async (req, res) => {
     return await getContractById(req, res);
 })

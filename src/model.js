@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 
+// Would be nice to have a in mem sequelize db to use in the unit tests
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: './database.sqlite3'
