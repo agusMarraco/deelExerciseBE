@@ -1,13 +1,13 @@
-const {Contract} = require("../src/model");
-const {getAllContracts, getContractById} = require("../src/contracts");
+const {Contract, Job} = require("../src/model");
+const {getUnpaidJobs} = require("../src/jobs");
 
 
-test('Test Get All contracts', async () => {
+test('Test Get all unpaid jobs for active contracts for user', async () => {
     const reqMock = {
-        get: jest.fn(() => '1'),
+        get: jest.fn(() => '2'),
         app: {
             get: (param) => {
-                return {Contract}
+                return {Contract, Job}
             }
         }
     };
@@ -16,28 +16,7 @@ test('Test Get All contracts', async () => {
         json: (value) => JSON.stringify(value)
     }
 
-    const result = await getAllContracts(reqMock, resMock)
-    expect(result.length == 1)
-})
-
-test('Get Contract', async () => {
-    const reqMock = {
-        get: jest.fn(() => '1'),
-        app: {
-            get: () => {
-                return {Contract}
-            }
-        },
-        params: {
-            id: '1'
-        }
-    };
-    const resMock = {
-        status: jest.fn(),
-        json: (value) => JSON.stringify(value)
-    }
-
-    const result = await getContractById(reqMock, resMock)
-    expect(result)
-    expect(result.status == 'terminated')
+    const result = await getUnpaidJobs(reqMock, resMock)
+    expect(result.length == 2)
+    expect(result.filter(job => job.dataValues.paid == null).length == 2)
 })

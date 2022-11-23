@@ -2,7 +2,7 @@ const {Contract} = require("../src/model");
 const {getAllContracts, getContractById} = require("../src/contracts");
 
 
-test('Test Get All contracts', async () => {
+test('Test Retrieve all contracts not terminated for user', async () => {
     const reqMock = {
         get: jest.fn(() => '1'),
         app: {
@@ -18,9 +18,10 @@ test('Test Get All contracts', async () => {
 
     const result = await getAllContracts(reqMock, resMock)
     expect(result.length == 1)
+    expect(result[0].status !== 'terminated')
 })
 
-test('Get Contract', async () => {
+test('Test Retrieve Contract for user, only if is matching', async () => {
     const reqMock = {
         get: jest.fn(() => '1'),
         app: {
@@ -39,5 +40,6 @@ test('Get Contract', async () => {
 
     const result = await getContractById(reqMock, resMock)
     expect(result)
+    expect(result.ClientId == '1')
     expect(result.status == 'terminated')
 })

@@ -1,35 +1,18 @@
-const {Contract} = require("../src/model");
-const {getAllContracts, getContractById} = require("../src/contracts");
+const {Contract, Job, Profile} = require("../src/model");
+const {getBestProfession, getBestClients} = require("../src/admin");
 
 
-test('Test Get All contracts', async () => {
+test('Test get best paid profession', async () => {
     const reqMock = {
-        get: jest.fn(() => '1'),
-        app: {
-            get: (param) => {
-                return {Contract}
-            }
-        }
-    };
-    const resMock = {
-        status: jest.fn(),
-        json: (value) => JSON.stringify(value)
-    }
-
-    const result = await getAllContracts(reqMock, resMock)
-    expect(result.length == 1)
-})
-
-test('Get Contract', async () => {
-    const reqMock = {
-        get: jest.fn(() => '1'),
+        get: jest.fn(() => '1234admin'),
         app: {
             get: () => {
-                return {Contract}
+                return {Contract, Job, Profile}
             }
         },
-        params: {
-            id: '1'
+        query: {
+            start: '2020-01-01',
+            end: '2022-12-12'
         }
     };
     const resMock = {
@@ -37,7 +20,31 @@ test('Get Contract', async () => {
         json: (value) => JSON.stringify(value)
     }
 
-    const result = await getContractById(reqMock, resMock)
+    const result = await getBestProfession(reqMock, resMock)
     expect(result)
-    expect(result.status == 'terminated')
+    expect(result.bestProfession == 'Programmer')
+})
+
+test('Test get best client', async () => {
+    const reqMock = {
+        get: jest.fn(() => '1234admin'),
+        app: {
+            get: () => {
+                return {Contract, Job, Profile}
+            }
+        },
+        query: {
+            start: '2020-01-01',
+            end: '2022-12-12'
+        }
+    };
+    const resMock = {
+        status: jest.fn(),
+        json: (value) => JSON.stringify(value)
+    }
+
+    const result = await getBestClients(reqMock, resMock)
+    expect(result)
+    expect(result[0].fullName == 'Kethcum Ash')
+    expect(result[1].fullName == 'Potter Harry')
 })

@@ -62,6 +62,7 @@ async function payJob(req, res) {
 
         if (!result) res.json([])
         res.json(result)
+        return result
 
     } catch (error) {
         console.error(error)
@@ -89,6 +90,7 @@ async function getUnpaidJobs(req, res) {
     })
     if (!jobs) res.json([])
     res.json(jobs)
+    return jobs
 }
 
 module.exports = {
