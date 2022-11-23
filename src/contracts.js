@@ -3,7 +3,7 @@ const {Op} = require("sequelize");
 async function getAllContracts(req, res) {
     const {Contract} = req.app.get('models')
     const profileId = req.get('profile_id')
-    const contract = await Contract.findAll({
+    const contracts = await Contract.findAll({
         where: {
             [Op.and]: {
                 [Op.not]: {
@@ -14,9 +14,9 @@ async function getAllContracts(req, res) {
             }
         }
     })
-    if (!contract) return res.status(404).end()
-    res.json(contract)
-    return contract
+    if (!contracts) return res.status(404).end()
+    res.json(contracts)
+    return contracts
 }
 async function getContractById(req, res) {
     const {Contract} = req.app.get('models')

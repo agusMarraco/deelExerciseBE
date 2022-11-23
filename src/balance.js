@@ -14,7 +14,7 @@ async function makeDeposit(req, res) {
         const profileId = req.get('profile_id');
         const {userId} = req.params;
         if (profileId != userId) {
-            res.status(400).send('Cant deposit to another user')
+            res.status(400).send('Cannot deposit to another user')
             return
         }
         const result = await sequelize.transaction(async (t) => {
@@ -36,7 +36,7 @@ async function makeDeposit(req, res) {
             })
 
             const maxDepositAmountAvailable = jobsNotPaidForClientAmountSum * 0.25;
-            if (maxDepositAmountAvailable < depositAmount) return 'cant deposit, amount exceeds 25% of the sum of not paid jobs'
+            if (maxDepositAmountAvailable < depositAmount) return 'Cannot deposit, amount exceeds 25% of the sum of not paid jobs'
 
             const clientProfile = await Profile.findOne({where: {id: userId}})
             await Profile.update({balance: clientProfile.balance + depositAmount}, {

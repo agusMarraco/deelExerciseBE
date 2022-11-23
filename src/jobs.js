@@ -34,7 +34,7 @@ async function payJob(req, res) {
                 }
             })
 
-            if (!jobToPay) return 'Job was not found, id does not exist, profile association is wrong or it is paid already'
+            if (!jobToPay) return 'Job was not found, id does not exist, profile association is wrong or it is already paid'
             if (client.balance <= jobToPay.price) return 'Profile balance is not enough to pay the job'
             const contractorId = jobToPay.Contract.ContractorId
             const contractorProfile = await Profile.findOne({
