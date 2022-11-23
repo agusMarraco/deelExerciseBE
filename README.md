@@ -121,6 +121,8 @@ It would be great for example if you'd write some unit test / simple frontend de
 
 When you have finished the assignment, create a github repository and send us the link.
 
+## Postman collection
+I added the postman collection I used to the repo `DeelChallenge.postman_collection.json`
   
 
 Thank you and good luck! 🙏
